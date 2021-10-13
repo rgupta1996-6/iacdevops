@@ -18,5 +18,5 @@ instance_keypair = "iacdevops"
 private_instance_count = 2
 
 # DNS Name
-dns_name = "stagedemo5.devopsincloud.com"
+# dns_name = "stagedemo5.devopsincloud.com"
 

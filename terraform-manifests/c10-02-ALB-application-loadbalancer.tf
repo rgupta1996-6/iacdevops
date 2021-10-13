@@ -21,12 +21,7 @@ module "alb" {
     {
       port               = 80
       protocol           = "HTTP"
-      action_type = "redirect"
-      redirect = {
-        port        = "443"
-        protocol    = "HTTPS"
-        status_code = "HTTP_301"
-      }
+      action_type = "forward"
     }
   ]  
   # Target Groups
@@ -65,28 +60,11 @@ module "alb" {
     },  
   ]
 
-  # HTTPS Listener
-  https_listeners = [
-    # HTTPS Listener Index = 0 for HTTPS 443
-    {
-      port               = 443
-      protocol           = "HTTPS"
-      #certificate_arn    = module.acm.this_acm_certificate_arn
-      certificate_arn    = module.acm.acm_certificate_arn
-      action_type = "fixed-response"
-      fixed_response = {
-        content_type = "text/plain"
-        message_body = "Fixed Static message - for Root Context"
-        status_code  = "200"
-      }
-    }, 
-  ]
-
   # HTTPS Listener Rules
-  https_listener_rules = [
+  http_tcp_listener_rules = [
     # Rule-1: /app1* should go to App1 EC2 Instances
     { 
-      https_listener_index = 0
+      http_tcp_listener_index = 0
       priority = 1
       actions = [
         {
