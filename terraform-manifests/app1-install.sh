@@ -15,4 +15,3 @@ EOL'
 
 sudo systemctl enable pingservice.service
 sudo systemctl start pingservice.service
-sudo systemctl is-active pingservice.service
