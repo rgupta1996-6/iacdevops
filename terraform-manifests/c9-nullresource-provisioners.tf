@@ -21,9 +21,19 @@ resource "null_resource" "name" {
     destination = "/home/ubuntu/vtb-node"
   }
 
+    provisioner "file" {
+    source      = "private-key/pingservice"
+    destination = "/home/ubuntu/pingservice"
+  }
+
    provisioner "file" {
     source      = "${path.module}/node-install.sh"
     destination = "/home/ubuntu/node-install.sh"
+  }
+
+   provisioner "file" {
+    source      = "${path.module}/app1-install.sh"
+    destination = "/home/ubuntu/app1-install.sh"
   }
   
 ## Remote Exec Provisioner: Using remote-exec provisioner fix the private key permissions on Bastion Host
@@ -31,13 +41,15 @@ resource "null_resource" "name" {
     inline = [
       "sudo chmod 400 /tmp/iacdevops.pem",
       "sudo chmod 777 vtb-node",
+      "sudo chmod 777 pingservice",
       "sudo chmod 777 node-install.sh",
+      "sudo chmod 777 app1-install.sh",
       "ssh-keyscan -H ${module.ec2_private.private_ip[0]} >> ~/.ssh/known_hosts",
       "ssh-keyscan -H ${module.ec2_private.private_ip[1]} >> ~/.ssh/known_hosts",
       "ssh-keyscan -H ${module.ec2_private.private_ip[2]} >> ~/.ssh/known_hosts",
-      "scp -i /tmp/iacdevops.pem vtb-node node-install.sh ubuntu@${module.ec2_private.private_ip[0]}:",
-      "scp -i /tmp/iacdevops.pem vtb-node node-install.sh ubuntu@${module.ec2_private.private_ip[1]}:",
-      "scp -i /tmp/iacdevops.pem vtb-node node-install.sh ubuntu@${module.ec2_private.private_ip[2]}:",
+      "scp -i /tmp/iacdevops.pem pingservice vtb-node node-install.sh app1-install.sh ubuntu@${module.ec2_private.private_ip[0]}:",
+      "scp -i /tmp/iacdevops.pem pingservice vtb-node node-install.sh app1-install.sh ubuntu@${module.ec2_private.private_ip[1]}:",
+      "scp -i /tmp/iacdevops.pem pingservice vtb-node node-install.sh app1-install.sh ubuntu@${module.ec2_private.private_ip[2]}:",
     ]
   }
 }
@@ -61,6 +73,7 @@ resource "null_resource" "node1" {
 ## Remote Exec Provisioner: Using remote-exec provisioner fix the private key permissions on Bastion Host
    provisioner "remote-exec" {
           inline = [
+            "sudo ./app1-install.sh",
             "sudo ./node-install.sh"
           ]
       
@@ -86,6 +99,7 @@ resource "null_resource" "node2" {
 ## Remote Exec Provisioner: Using remote-exec provisioner fix the private key permissions on Bastion Host
    provisioner "remote-exec" {
           inline = [
+            "sudo ./app1-install.sh",
             "sudo ./node-install.sh"
           ]
       
@@ -111,6 +125,7 @@ resource "null_resource" "node3" {
 ## Remote Exec Provisioner: Using remote-exec provisioner fix the private key permissions on Bastion Host
    provisioner "remote-exec" {
           inline = [
+            "sudo ./app1-install.sh",
             "sudo ./node-install.sh"
           ]
       
