@@ -18,10 +18,10 @@ module "loadbalancer_sg" {
   # Open to CIDRs blocks (rule or from_port+to_port+protocol+description)
   ingress_with_cidr_blocks = [
     {
-      from_port   = 81
-      to_port     = 81
+      from_port   = 80
+      to_port     = 80
       protocol    = 6
-      description = "Allow Port 81 from internet"
+      description = "Allow Port 80 from internet"
       cidr_blocks = "0.0.0.0/0"
     },
   ]
