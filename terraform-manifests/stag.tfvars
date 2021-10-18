@@ -13,9 +13,9 @@ vpc_enable_nat_gateway = true
 vpc_single_nat_gateway = true
 
 # EC2 Instance Variables
-instance_type = "t3.micro"
+instance_type = "t2.micro"
 instance_keypair = "iacdevops"
-private_instance_count = 2
+private_instance_count = 3
 
 # DNS Name
 # dns_name = "stagedemo5.devopsincloud.com"

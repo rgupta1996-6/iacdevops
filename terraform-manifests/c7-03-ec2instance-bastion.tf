@@ -6,7 +6,7 @@ module "ec2_public" {
   # insert the 10 required variables here
   name                   = "${var.environment}-BastionHost"
   #instance_count         = 5
-  ami                    = data.aws_ami.amzlinux2.id
+  ami                    = data.aws_ami.ubuntu.id
   instance_type          = var.instance_type
   key_name               = var.instance_keypair
   #monitoring             = true
