@@ -26,5 +26,6 @@ module "loadbalancer_sg" {
 #     },
 #   ]
 # }
+}
 
 
