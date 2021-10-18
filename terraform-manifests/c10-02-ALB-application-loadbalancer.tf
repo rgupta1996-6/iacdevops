@@ -45,18 +45,21 @@ module "alb" {
         matcher             = "200-399"
       }
       protocol_version = "HTTP1"
-     /* # App1 Target Group - Targets
       targets = {
         my_app1_vm1 = {
-          target_id = module.ec2_private_app1.id[0]
+          target_id = module.ec2_private.id[0]
           port      = 80
         },
         my_app1_vm2 = {
-          target_id = module.ec2_private_app1.id[1]
+          target_id = module.ec2_private.id[1]
+          port      = 80
+        },
+         my_app1_vm3 = {
+          target_id = module.ec2_private.id[2]
           port      = 80
         }
       }
-      tags =local.common_tags # Target Group Tags*/
+      tags =local.common_tags # Target Group Tags
     },  
   ]
 
