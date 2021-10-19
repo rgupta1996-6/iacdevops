@@ -36,7 +36,7 @@ module "alb" {
       health_check = {
         enabled             = true
         interval            = 30
-        path                = "/app1/index.html"
+        path                = "/ping"
         port                = "traffic-port"
         healthy_threshold   = 3
         unhealthy_threshold = 3
