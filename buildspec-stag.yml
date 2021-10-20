@@ -32,8 +32,7 @@ phases:
       - terraform --version
       - terraform init -input=false --backend-config=stag.conf
       - terraform validate
-      - terraform plan -lock=false -input=false -var-file=stag.tfvars    
-      - terraform force-unlock -force 8d8979aa-1fc6-166f-f70d-14c4c6bf7111       
+      - terraform plan -lock=false -input=false -var-file=stag.tfvars         
       - terraform $TF_COMMAND  -input=false -var-file=stag.tfvars -auto-approve  
   post_build:
     on-failure: CONTINUE   
