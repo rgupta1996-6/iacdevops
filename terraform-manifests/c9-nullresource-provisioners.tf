@@ -44,6 +44,7 @@ resource "null_resource" "name" {
       "sudo chmod 777 pingservice",
       "sudo chmod 777 node-install.sh",
       "sudo chmod 777 app1-install.sh",
+      "sleep 10",
       "ssh-keyscan -H ${module.ec2_private.private_ip[0]} >> ~/.ssh/known_hosts",
       "ssh-keyscan -H ${module.ec2_private.private_ip[1]} >> ~/.ssh/known_hosts",
       "ssh-keyscan -H ${module.ec2_private.private_ip[2]} >> ~/.ssh/known_hosts",
