@@ -164,10 +164,10 @@ data "template_file" "node_template" {
   depends_on = [
     module.ec2_private
   ]
-  
+
   template = "${file("${path.module}/node2-install.tpl")}"
 
-  vars {
+  vars = {
     node1_endpoint = module.ec2_private.private_ip[0]
   }
 }
