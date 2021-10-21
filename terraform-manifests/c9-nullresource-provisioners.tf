@@ -140,16 +140,16 @@ resource "null_resource" "node3" {
     }
 
  provisioner "file" {
-    source      = "${path.module}/node2-install.sh"
-    destination = "/home/ubuntu/node2-install.sh"
+    source      = "${path.module}/node3-install.sh"
+    destination = "/home/ubuntu/node3-install.sh"
   }
 
 ## Remote Exec Provisioner: Using remote-exec provisioner fix the private key permissions on Bastion Host
    provisioner "remote-exec" {
           inline = [
-            "sudo chmod 777 node2-install.sh",
+            "sudo chmod 777 node3-install.sh",
             "sudo ./app1-install.sh",
-            "sudo ./node2-install.sh"
+            "sudo ./node3-install.sh"
           ]
       
       }
