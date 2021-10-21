@@ -49,8 +49,8 @@ resource "null_resource" "name" {
       "ssh-keyscan -H ${module.ec2_private.private_ip[1]} >> ~/.ssh/known_hosts",
       "ssh-keyscan -H ${module.ec2_private.private_ip[2]} >> ~/.ssh/known_hosts",
       "scp -i /tmp/iacdevops.pem pingservice vtb-node node-install.sh app1-install.sh ubuntu@${module.ec2_private.private_ip[0]}:",
-      "scp -i /tmp/iacdevops.pem pingservice vtb-node node-install.sh app1-install.sh ubuntu@${module.ec2_private.private_ip[1]}:",
-      "scp -i /tmp/iacdevops.pem pingservice vtb-node node-install.sh app1-install.sh ubuntu@${module.ec2_private.private_ip[2]}:",
+      "scp -i /tmp/iacdevops.pem pingservice vtb-node app1-install.sh ubuntu@${module.ec2_private.private_ip[1]}:",
+      "scp -i /tmp/iacdevops.pem pingservice vtb-node app1-install.sh ubuntu@${module.ec2_private.private_ip[2]}:",
     ]
   }
 }
@@ -107,12 +107,17 @@ resource "null_resource" "node2" {
       port = 22
     }
 
+ provisioner "file" {
+    source      = templateFile("node2-install.tmpl",{node1_endpoint = module.ec2_private.private_ip[0]})
+    destination = "/home/ubuntu/node2-install.tmpl"
+  }
 
 ## Remote Exec Provisioner: Using remote-exec provisioner fix the private key permissions on Bastion Host
    provisioner "remote-exec" {
           inline = [
+            "sudo chmod 777 node2-install.tmpl",
             "sudo ./app1-install.sh",
-            "sudo ./node-install.sh"
+            "sudo ./node2-install.tmpl"
           ]
       
       }
@@ -133,12 +138,17 @@ resource "null_resource" "node3" {
       port = 22
     }
 
+provisioner "file" {
+    source      = templateFile("node2-install.tmpl",{node1_endpoint = module.ec2_private.private_ip[0]})
+    destination = "/home/ubuntu/node2-install.tmpl"
+  }
 
 ## Remote Exec Provisioner: Using remote-exec provisioner fix the private key permissions on Bastion Host
    provisioner "remote-exec" {
           inline = [
+             "sudo chmod 777 node2-install.tmpl",
             "sudo ./app1-install.sh",
-            "sudo ./node-install.sh"
+            "sudo ./node2-install.tmpl"
           ]
       
       }
