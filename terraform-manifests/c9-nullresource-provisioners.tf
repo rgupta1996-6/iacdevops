@@ -70,12 +70,19 @@ resource "null_resource" "node1" {
       port = 22
     }
 
+ provisioner "file" {
+    source      = "private-key/iacdevops.pem"
+    destination = "/tmp/iacdevops.pem"
+  }
+
 
 ## Remote Exec Provisioner: Using remote-exec provisioner fix the private key permissions on Bastion Host
    provisioner "remote-exec" {
           inline = [
             "sudo ./app1-install.sh",
-            "sudo ./node-install.sh"
+            "sudo ./node-install.sh",
+            "scp -i /tmp/iacdevops.pem /home/ubuntu/substrate-as/demo.log ubuntu@${module.ec2_private.private_ip[1]}:",
+            "scp -i /tmp/iacdevops.pem /home/ubuntu/substrate-as/demo.log  ubuntu@${module.ec2_private.private_ip[2]}:",
           ]
       
       }
