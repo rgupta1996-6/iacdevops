@@ -29,6 +29,20 @@ module "private_sg" {
       description = "Allow Port 9945 from internet"
       cidr_blocks = "10.0.0.0/16"
     },
+     {
+      from_port   = 30337
+      to_port     = 30337
+      protocol    = 6
+      description = "Allow Port 9945 from internet"
+      cidr_blocks = "10.0.0.0/16"
+    },
+     {
+      from_port   = 30335
+      to_port     = 30335
+      protocol    = 6
+      description = "Allow Port 9945 from internet"
+      cidr_blocks = "10.0.0.0/16"
+    },
   ]
   tags = local.common_tags
 }
