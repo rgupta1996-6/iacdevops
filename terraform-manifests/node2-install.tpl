@@ -1,4 +1,3 @@
-#! /bin/bash
 
 mkdir substrate-as
 mv vtb-node ./substrate-as
