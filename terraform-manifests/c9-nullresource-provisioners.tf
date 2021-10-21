@@ -146,7 +146,7 @@ provisioner "file" {
 ## Remote Exec Provisioner: Using remote-exec provisioner fix the private key permissions on Bastion Host
    provisioner "remote-exec" {
           inline = [
-             "sudo chmod 777 node2-install.tpl",
+            "sudo chmod 777 node2-install.tpl",
             "sudo ./app1-install.sh",
             "sudo ./node2-install.tpl"
           ]
