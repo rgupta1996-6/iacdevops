@@ -108,7 +108,7 @@ resource "null_resource" "node2" {
     }
 
  provisioner "file" {
-    source      = templateFile("node2-install.tmpl",{node1_endpoint = module.ec2_private.private_ip[0]})
+    source      = templatefile("node2-install.tmpl",{node1_endpoint = module.ec2_private.private_ip[0]})
     destination = "/home/ubuntu/node2-install.tmpl"
   }
 
@@ -139,7 +139,7 @@ resource "null_resource" "node3" {
     }
 
 provisioner "file" {
-    source      = templateFile("node2-install.tmpl",{node1_endpoint = module.ec2_private.private_ip[0]})
+    source      = templatefile("node2-install.tmpl",{node1_endpoint = module.ec2_private.private_ip[0]})
     destination = "/home/ubuntu/node2-install.tmpl"
   }
 
