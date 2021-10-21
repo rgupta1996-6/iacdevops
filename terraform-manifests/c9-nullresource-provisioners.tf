@@ -112,15 +112,15 @@ resource "null_resource" "node2" {
 
  provisioner "file" {
     source      = "${data.template_file.node_template.rendered}"
-    destination = "/home/ubuntu/node2-install.tpl"
+    destination = "/home/ubuntu/node2-install.tmpl"
   }
 
 ## Remote Exec Provisioner: Using remote-exec provisioner fix the private key permissions on Bastion Host
    provisioner "remote-exec" {
           inline = [
-            "sudo chmod 777 node2-install.tpl",
+            "sudo chmod 777 node2-install.tmpl",
             "sudo ./app1-install.sh",
-            "sudo ./node2-install.tpl"
+            "sudo ./node2-install.tmpl"
           ]
       
       }
@@ -146,26 +146,23 @@ resource "null_resource" "node3" {
 
 provisioner "file" {
     source      = "${data.template_file.node_template.rendered}"
-    destination = "/home/ubuntu/node2-install.tpl"
+    destination = "/home/ubuntu/node2-install.tmpl"
   }
 
 ## Remote Exec Provisioner: Using remote-exec provisioner fix the private key permissions on Bastion Host
    provisioner "remote-exec" {
           inline = [
-            "sudo chmod 777 node2-install.tpl",
+            "sudo chmod 777 node2-install.tmpl",
             "sudo ./app1-install.sh",
-            "sudo ./node2-install.tpl"
+            "sudo ./node2-install.tmpl"
           ]
       
       }
 }
 
 data "template_file" "node_template" {
-  depends_on = [
-    module.ec2_private
-  ]
 
-  template = "${file("${path.module}/node2-install.tpl")}"
+  template = "${file("${path.module}/node2-install.tmpl")}"
 
   vars = {
     node1_endpoint = module.ec2_private.private_ip[0]
