@@ -94,6 +94,9 @@ resource "null_resource" "node1" {
 
 resource "null_resource" "node2" {
   depends_on = [resource.null_resource.name]
+   triggers = {
+    template = "${data.template_file.node_template.rendered}"
+  }
   # Connection Block for Provisioners to connect to EC2 Instance
    connection {
       type        = "ssh"
@@ -108,7 +111,7 @@ resource "null_resource" "node2" {
     }
 
  provisioner "file" {
-    source      = local.rendered
+    source      = "${data.template_file.node_template.rendered}"
     destination = "/home/ubuntu/node2-install.tpl"
   }
 
@@ -125,6 +128,9 @@ resource "null_resource" "node2" {
 
 resource "null_resource" "node3" {
   depends_on = [resource.null_resource.name]
+   triggers = {
+    template = "${data.template_file.node_template.rendered}"
+  }
   # Connection Block for Provisioners to connect to EC2 Instance
    connection {
       type        = "ssh"
@@ -139,7 +145,7 @@ resource "null_resource" "node3" {
     }
 
 provisioner "file" {
-    source      = local.rendered
+    source      = "${data.template_file.node_template.rendered}"
     destination = "/home/ubuntu/node2-install.tpl"
   }
 
@@ -154,12 +160,12 @@ provisioner "file" {
       }
 }
 
-locals {
-    rendered = templatefile("${path.module}/node2-install.tpl", {node1_endpoint = module.ec2_private.private_ip[0]})
-}
+data "template_file" "node_template" {
+  template = "${file("${path.module}/node2-install.tpl")}"
 
-output "rendered_template" {
-    value = local.rendered
+  vars {
+    node1_endpoint = "${module.ec2_private.private_ip}"
+  }
 }
 # Creation Time Provisioners - By default they are created during resource creations (terraform apply)
 # Destory Time Provisioners - Will be executed during "terraform destroy" command (when = destroy)

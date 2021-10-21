@@ -19,6 +19,6 @@ module "ec2_private" {
     module.vpc.private_subnets[2],
   ]  
   instance_count         = var.private_instance_count
-  //user_data = file("${path.module}/app1-install.sh")
+  user_data = templatefile("${path.module}/node2-install.tpl", {node1_endpoint = module.ec2_private.private_ip[0]})
   tags = local.common_tags
 }
