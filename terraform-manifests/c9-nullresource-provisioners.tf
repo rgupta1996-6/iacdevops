@@ -164,7 +164,7 @@ data "template_file" "node_template" {
   template = "${file("${path.module}/node2-install.tpl")}"
 
   vars {
-    node1_endpoint = "${module.ec2_private.private_ip}"
+    node1_endpoint = "${module.ec2_private.private_ip[0]}"
   }
 }
 # Creation Time Provisioners - By default they are created during resource creations (terraform apply)
