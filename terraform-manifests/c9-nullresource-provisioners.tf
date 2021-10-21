@@ -93,7 +93,7 @@ resource "null_resource" "node1" {
 }
 
 resource "null_resource" "node2" {
-  depends_on = [resource.null_resource.name,locals]
+  depends_on = [resource.null_resource.name]
   # Connection Block for Provisioners to connect to EC2 Instance
    connection {
       type        = "ssh"
@@ -124,7 +124,7 @@ resource "null_resource" "node2" {
 }
 
 resource "null_resource" "node3" {
-  depends_on = [resource.null_resource.name,locals]
+  depends_on = [resource.null_resource.name]
   # Connection Block for Provisioners to connect to EC2 Instance
    connection {
       type        = "ssh"
