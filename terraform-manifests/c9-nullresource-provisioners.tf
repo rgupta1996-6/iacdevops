@@ -93,7 +93,7 @@ resource "null_resource" "node1" {
 }
 
 resource "null_resource" "node2" {
-  depends_on = [resource.null_resource.name]
+  depends_on = [resource.null_resource.name,locals]
   # Connection Block for Provisioners to connect to EC2 Instance
    connection {
       type        = "ssh"
@@ -124,7 +124,7 @@ resource "null_resource" "node2" {
 }
 
 resource "null_resource" "node3" {
-  depends_on = [resource.null_resource.name]
+  depends_on = [resource.null_resource.name,locals]
   # Connection Block for Provisioners to connect to EC2 Instance
    connection {
       type        = "ssh"
@@ -155,7 +155,7 @@ provisioner "file" {
 }
 
 locals {
-    rendered = templatefile("./node2-install.tpl", {node1_endpoint = module.ec2_private.private_ip[0]})
+    rendered = templatefile("${path.module}/node2-install.tpl", {node1_endpoint = module.ec2_private.private_ip[0]})
 }
 
 output "rendered_template" {
