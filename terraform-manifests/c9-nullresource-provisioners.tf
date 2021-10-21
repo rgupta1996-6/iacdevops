@@ -145,7 +145,7 @@ resource "null_resource" "node3" {
     }
 
 provisioner "file" {
-    source      = "${data.template_file.node_template.rendered}"
+    source      = data.template_file.node_template.rendered
     destination = "/home/ubuntu/node2-install.tmpl"
   }
 
@@ -162,7 +162,7 @@ provisioner "file" {
 
 data "template_file" "node_template" {
 
-  template = "${file("${path.module}/node2-install.tmpl")}"
+  template = file("${path.module}/node2-install.tmpl")
 
   vars = {
     node1_endpoint = module.ec2_private.private_ip[0]
