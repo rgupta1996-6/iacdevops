@@ -85,8 +85,8 @@ resource "null_resource" "node1" {
             "ssh-keyscan -H ${module.ec2_private.private_ip[1]} >> ~/.ssh/known_hosts",
             "ssh-keyscan -H ${module.ec2_private.private_ip[2]} >> ~/.ssh/known_hosts",
             "sudo chmod 777 ./substrate-as/demo.log",
-            "scp -i /tmp/iacdevops.pem /home/ubuntu/substrate-as/demo.log ubuntu@${module.ec2_private.private_ip[1]}:",
-            "scp -i /tmp/iacdevops.pem /home/ubuntu/substrate-as/demo.log  ubuntu@${module.ec2_private.private_ip[2]}:",
+            "scp -i /tmp/iacdevops.pem /home/ubuntu/substrate-as/demo.log /home/ubuntu/substrate-as/node1-ip.log ubuntu@${module.ec2_private.private_ip[1]}:",
+            "scp -i /tmp/iacdevops.pem /home/ubuntu/substrate-as/demo.log /home/ubuntu/substrate-as/node1-ip.log ubuntu@${module.ec2_private.private_ip[2]}:",
           ]
       
       }
@@ -108,7 +108,7 @@ resource "null_resource" "node2" {
     }
 
  provisioner "file" {
-    source      = templatefile("${path.module}/node2-install.sh",{node1_endpoint = module.ec2_private.private_ip[0] })
+    source      = "${path.module}/node2-install.sh"
     destination = "/home/ubuntu/node2-install.sh"
   }
 
@@ -138,8 +138,8 @@ resource "null_resource" "node3" {
       port = 22
     }
 
-provisioner "file" {
-    source      =  templatefile("${path.module}/node2-install.sh",{node1_endpoint = module.ec2_private.private_ip[0] })
+ provisioner "file" {
+    source      = "${path.module}/node2-install.sh"
     destination = "/home/ubuntu/node2-install.sh"
   }
 
