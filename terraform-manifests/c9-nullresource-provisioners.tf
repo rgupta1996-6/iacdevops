@@ -108,16 +108,16 @@ resource "null_resource" "node2" {
     }
 
  provisioner "file" {
-    source      = templatefile("node2-install.tmpl",{node1_endpoint = module.ec2_private.private_ip[0]})
-    destination = "/home/ubuntu/node2-install.tmpl"
+    source      = local.rendered
+    destination = "/home/ubuntu/node2-install.tpl"
   }
 
 ## Remote Exec Provisioner: Using remote-exec provisioner fix the private key permissions on Bastion Host
    provisioner "remote-exec" {
           inline = [
-            "sudo chmod 777 node2-install.tmpl",
+            "sudo chmod 777 node2-install.tpl",
             "sudo ./app1-install.sh",
-            "sudo ./node2-install.tmpl"
+            "sudo ./node2-install.tpl"
           ]
       
       }
@@ -139,21 +139,27 @@ resource "null_resource" "node3" {
     }
 
 provisioner "file" {
-    source      = templatefile("node2-install.tmpl",{node1_endpoint = module.ec2_private.private_ip[0]})
-    destination = "/home/ubuntu/node2-install.tmpl"
+    source      = local.rendered
+    destination = "/home/ubuntu/node2-install.tpl"
   }
 
 ## Remote Exec Provisioner: Using remote-exec provisioner fix the private key permissions on Bastion Host
    provisioner "remote-exec" {
           inline = [
-             "sudo chmod 777 node2-install.tmpl",
+             "sudo chmod 777 node2-install.tpl",
             "sudo ./app1-install.sh",
-            "sudo ./node2-install.tmpl"
+            "sudo ./node2-install.tpl"
           ]
       
       }
 }
 
+locals {
+    rendered = templatefile("./node2-install.tpl", {node1_endpoint = module.ec2_private.private_ip[0]})
+}
 
+output "rendered_template" {
+    value = local.rendered
+}
 # Creation Time Provisioners - By default they are created during resource creations (terraform apply)
 # Destory Time Provisioners - Will be executed during "terraform destroy" command (when = destroy)
