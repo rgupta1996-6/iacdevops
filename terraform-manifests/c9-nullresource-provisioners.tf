@@ -81,6 +81,8 @@ resource "null_resource" "node1" {
           inline = [
             "sudo ./app1-install.sh",
             "sudo ./node-install.sh",
+            "ssh-keyscan -H ${module.ec2_private.private_ip[1]} >> ~/.ssh/known_hosts",
+            "ssh-keyscan -H ${module.ec2_private.private_ip[2]} >> ~/.ssh/known_hosts",
             "scp -i /tmp/iacdevops.pem /home/ubuntu/substrate-as/demo.log ubuntu@${module.ec2_private.private_ip[1]}:",
             "scp -i /tmp/iacdevops.pem /home/ubuntu/substrate-as/demo.log  ubuntu@${module.ec2_private.private_ip[2]}:",
           ]
