@@ -4,6 +4,8 @@ module "alb" {
   #version = "5.16.0"
   version = "6.5.0"
 
+  depends_on = [module.vpc]
+
   name = "${local.name}-alb"
   load_balancer_type = "application"
   vpc_id = module.vpc.vpc_id
